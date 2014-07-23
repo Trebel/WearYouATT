@@ -134,7 +134,10 @@ containing a value of this type.
         public static final int card_content_padding_rect_right=0x7f060001;
         public static final int card_content_padding_rect_top=0x7f060002;
         public static final int close_button_diameter=0x7f060003;
+        public static final int default_settings_circle_radius=0x7f060005;
         public static final int dismiss_padding=0x7f060004;
+        public static final int round_side_inset=0x7f060007;
+        public static final int selected_settings_circle_radius=0x7f060006;
     }
     public static final class drawable {
         public static final int card_background=0x7f020000;
@@ -228,9 +231,11 @@ containing a value of this type.
         public static final int go_to_phone_00223=0x7f020058;
         public static final int go_to_phone_00224=0x7f020059;
         public static final int go_to_phone_animation=0x7f02005a;
-        public static final int ic_full_cancel=0x7f02005b;
-        public static final int ic_full_sad=0x7f02005c;
-        public static final int ic_launcher=0x7f02005d;
+        public static final int ic_action_done=0x7f02005b;
+        public static final int ic_action_star=0x7f02005c;
+        public static final int ic_full_cancel=0x7f02005d;
+        public static final int ic_full_sad=0x7f02005e;
+        public static final int ic_launcher=0x7f02005f;
     }
     public static final class id {
         public static final int action_error=0x7f050006;
@@ -241,11 +246,13 @@ containing a value of this type.
         public static final int dismiss_overlay_button=0x7f05000c;
         public static final int dismiss_overlay_explain=0x7f05000b;
         public static final int error_message=0x7f050007;
+        public static final int image=0x7f050010;
         public static final int left=0x7f050000;
         public static final int message=0x7f05000a;
         public static final int right=0x7f050002;
-        public static final int text=0x7f05000d;
-        public static final int title=0x7f05000e;
+        public static final int sample_list_view=0x7f05000d;
+        public static final int text=0x7f05000e;
+        public static final int title=0x7f05000f;
         public static final int top=0x7f050001;
         public static final int watch_view_stub=0x7f050005;
     }
@@ -256,6 +263,7 @@ containing a value of this type.
         public static final int rect=0x7f030003;
         public static final int round=0x7f030004;
         public static final int watch_card_content=0x7f030005;
+        public static final int wearablelistview_item=0x7f030006;
     }
     public static final class string {
         public static final int app_name=0x7f080000;

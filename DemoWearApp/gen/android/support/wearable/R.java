@@ -138,8 +138,8 @@ public final class R {
 		public static final int go_to_phone_00223 = 0x7f020058;
 		public static final int go_to_phone_00224 = 0x7f020059;
 		public static final int go_to_phone_animation = 0x7f02005a;
-		public static final int ic_full_cancel = 0x7f02005b;
-		public static final int ic_full_sad = 0x7f02005c;
+		public static final int ic_full_cancel = 0x7f02005d;
+		public static final int ic_full_sad = 0x7f02005e;
 	}
 	public static final class id {
 		public static final int action_error = 0x7f050006;
@@ -153,8 +153,8 @@ public final class R {
 		public static final int left = 0x7f050000;
 		public static final int message = 0x7f05000a;
 		public static final int right = 0x7f050002;
-		public static final int text = 0x7f05000d;
-		public static final int title = 0x7f05000e;
+		public static final int text = 0x7f05000e;
+		public static final int title = 0x7f05000f;
 		public static final int top = 0x7f050001;
 	}
 	public static final class layout {
