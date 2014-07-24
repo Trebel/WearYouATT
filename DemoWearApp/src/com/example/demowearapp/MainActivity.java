@@ -3,17 +3,62 @@ package com.example.demowearapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.GridViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnApplyWindowInsetsListener;
 import android.view.WindowInsets;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends Activity {
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.data.FreezableUtils;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataApi.DataItemResult;
+import com.google.android.gms.wearable.DataEvent;
+import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
+
+public class MainActivity extends Activity implements DataApi.DataListener, 
+MessageApi.MessageListener, NodeApi.NodeListener, ConnectionCallbacks,
+OnConnectionFailedListener {
+	
+	private static final String TAG = "MainActivity";
+	
+    /** Request code for launching the Intent to resolve Google Play services errors. */
+    private static final int REQUEST_RESOLVE_ERROR = 1000;
+	
+	private GoogleApiClient mGoogleApiClient;
+	private boolean mResolvingError = false;
+	
+    // Send DataItems.
+    private ScheduledExecutorService mGeneratorExecutor;
+    private ScheduledFuture<?> mDataItemGeneratorFuture;
+    
+    private static final String COUNT_KEY = "count";
+    private static final String COUNT_PATH = "/count";
+    
+    private static final String PRESENCE_KEY = "presence";
+    private static final String PRESENCE_PATH = "/presence";
+	
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +80,69 @@ public class MainActivity extends Activity {
                 return insets;
             }
         });
-        pager.setAdapter(new SampleGridPagerAdapter(this, getFragmentManager()));
+        pager.setAdapter(new SampleGridPagerAdapter(this, getFragmentManager()));      
+        
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        .addApi(Wearable.API)
+        .addConnectionCallbacks(this)
+        .addOnConnectionFailedListener(this)
+        .build();
     }
     
+    
+    private void sendpresence(String presence) {
+        PutDataMapRequest dataMap = PutDataMapRequest.create(PRESENCE_PATH);
+        dataMap.getDataMap().putString(PRESENCE_KEY, presence);
+        PutDataRequest request = dataMap.asPutDataRequest();
+        Wearable.DataApi.putDataItem(mGoogleApiClient, request)
+                .setResultCallback(new ResultCallback<DataItemResult>() {
+                    @Override
+                    public void onResult(DataItemResult dataItemResult) {
+                        LOGD(TAG, "Sending image was successful: " + dataItemResult.getStatus()
+                                .isSuccess());
+                    }
+                });
+    }
+    
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mResolvingError) {
+            mGoogleApiClient.connect();
+        }
+    }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        /*mDataItemGeneratorFuture = mGeneratorExecutor.scheduleWithFixedDelay(
+                new DataItemGenerator(), 1, 5, TimeUnit.SECONDS);*/
+    }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        mDataItemGeneratorFuture.cancel(true /* mayInterruptIfRunning */);
+    }
+    
+    @Override
+    protected void onStop() {
+        if (!mResolvingError) {
+            Wearable.DataApi.removeListener(mGoogleApiClient, this);
+            Wearable.MessageApi.removeListener(mGoogleApiClient, this);
+            Wearable.NodeApi.removeListener(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+    
+    
 	public void confirm(View view){
-		//successConfirmation();
+		sendpresence("Available");
 	}
 	
-    public void successConfirmation(){
+    public void successConfirmationActivityAnimation(){
     startConfirmationActivity(ConfirmationActivity.SUCCESS_ANIMATION,
             "Status set!");
     }
@@ -55,5 +155,122 @@ public class MainActivity extends Activity {
                 .putExtra(ConfirmationActivity.EXTRA_MESSAGE, message);
         startActivity(confirmationActivity);
     }
+
+	@Override //OnConnectionFailedListener
+	public void onConnectionFailed(ConnectionResult result) {
+        if (mResolvingError) {
+            // Already attempting to resolve an error.
+            return;
+        } else if (result.hasResolution()) {
+            try {
+                mResolvingError = true;
+                result.startResolutionForResult(this, REQUEST_RESOLVE_ERROR);
+            } catch (IntentSender.SendIntentException e) {
+                // There was an error with the resolution intent. Try again.
+                mGoogleApiClient.connect();
+            }
+        } else {
+            Log.e(TAG, "Connection to Google API client has failed");
+            mResolvingError = false;
+            Wearable.DataApi.removeListener(mGoogleApiClient, this);
+            Wearable.MessageApi.removeListener(mGoogleApiClient, this);
+            Wearable.NodeApi.removeListener(mGoogleApiClient, this);
+        }
+		
+	}
+
+	@Override
+	public void onConnected(Bundle arg0) {
+		LOGD(TAG, "Google API Client was connected");
+        mResolvingError = false;
+        Wearable.DataApi.addListener(mGoogleApiClient, this);
+        Wearable.MessageApi.addListener(mGoogleApiClient, this);
+        Wearable.NodeApi.addListener(mGoogleApiClient, this);
+		
+	}
+
+	@Override
+	public void onConnectionSuspended(int arg0) {
+		LOGD(TAG, "Connection to Google API client was suspended");
+	}
+
+	@Override
+	public void onPeerConnected(Node arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPeerDisconnected(Node arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMessageReceived(MessageEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDataChanged(DataEventBuffer dataEvents) {
+        LOGD(TAG, "onDataChanged: " + dataEvents);
+        final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
+        dataEvents.close();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (DataEvent event : events) {
+                    /*if (event.getType() == DataEvent.TYPE_CHANGED) {
+                        mDataItemListAdapter.add(
+                                new Event("DataItem Changed", event.getDataItem().toString()));
+                    } else if (event.getType() == DataEvent.TYPE_DELETED) {
+                        mDataItemListAdapter.add(
+                                new Event("DataItem Deleted", event.getDataItem().toString()));
+                    }*/
+                }
+            }
+        });
+		
+	}
+	
+    /**
+     * As simple wrapper around Log.d
+     */
+    private static void LOGD(final String tag, String message) {
+        if (Log.isLoggable(tag, Log.DEBUG)) {
+            Log.d(tag, message);
+        }
+    }
+    
+    /** Generates a DataItem based on an incrementing count. */
+    /*
+    private class DataItemGenerator implements Runnable {
+
+        private int count = 0;
+
+        @Override
+        public void run() {
+            PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(COUNT_PATH);
+            putDataMapRequest.getDataMap().putInt(COUNT_KEY, count++);
+            PutDataRequest request = putDataMapRequest.asPutDataRequest();
+
+            LOGD(TAG, "Generating DataItem: " + request);
+            if (!mGoogleApiClient.isConnected()) {
+                return;
+            }
+            Wearable.DataApi.putDataItem(mGoogleApiClient, request)
+                    .setResultCallback(new ResultCallback<DataItemResult>() {
+                        @Override
+                        public void onResult(DataItemResult dataItemResult) {
+                            if (!dataItemResult.getStatus().isSuccess()) {
+                                Log.e(TAG, "ERROR: failed to putDataItem, status code: "
+                                        + dataItemResult.getStatus().getStatusCode());
+                            }
+                        }
+                    });
+        }
+    }*/
+	
     
 }
