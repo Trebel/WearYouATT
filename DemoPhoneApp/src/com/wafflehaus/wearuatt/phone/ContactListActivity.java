@@ -63,6 +63,14 @@ public class ContactListActivity extends Activity {
 		}
 
 		mList = (ListView) findViewById(R.id.listView1);
+		
+		Bundle extras = getIntent().getExtras();
+		  if (extras != null) {
+		   String datas= extras.getString("presence");
+		   if (datas!= null) {
+		        
+		   }   
+		  }
 
 		mAvailability = (ImageView) findViewById(R.id.contact_header_availability);
 
