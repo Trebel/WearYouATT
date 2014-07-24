@@ -2,4 +2,9 @@
     <dimen name="default_settings_circle_radius">18dp</dimen>
     <dimen name="selected_settings_circle_radius">24dp</dimen>
     <dimen name="round_side_inset">32dp</dimen>
+    
+    <dimen name="page_row_margin">100dp</dimen>
+    <dimen name="page_column_margin">10dp</dimen>
+    <dimen name="page_column_margin_round">50dp</dimen>
+    
 </resources>

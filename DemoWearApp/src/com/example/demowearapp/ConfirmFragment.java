@@ -1,0 +1,25 @@
+package com.example.demowearapp;
+
+import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
+import android.support.wearable.view.CircledImageView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+
+public class ConfirmFragment extends Fragment    {
+	@Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.confirmfragment,
+                                     container, false);
+
+        CircledImageView nextButton = (CircledImageView) view.findViewById(R.id.button_confirm);
+        
+        return view;
+    }
+	
+}
