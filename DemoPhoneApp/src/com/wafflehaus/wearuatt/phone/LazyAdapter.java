@@ -54,7 +54,7 @@ public class LazyAdapter extends BaseAdapter {
 		ImageView contactImage = (ImageView) vi
 				.findViewById(R.id.contact_image);
 		ImageView contactAvailability = (ImageView) vi
-				.findViewById(R.id.contact_availability);
+				.findViewById(R.id.contact_header_availability);
 
 		HashMap<String, String> contact = new HashMap<String, String>();
 		contact = data.get(position);

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 public class ContactListActivity extends Activity {
@@ -29,6 +30,7 @@ public class ContactListActivity extends Activity {
 
 	ListView mList;
 	LazyAdapter mAdapter;
+	ImageView mAvailability;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class ContactListActivity extends Activity {
 		}
 
 		mList = (ListView) findViewById(R.id.listView1);
+		
+		mAvailability = (ImageView) findViewById(R.id.contact_header_availability);
 
 		// Getting adapter by passing xml data ArrayList
 		mAdapter = new LazyAdapter(this, songsList);

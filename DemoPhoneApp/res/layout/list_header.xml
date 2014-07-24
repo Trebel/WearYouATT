@@ -57,7 +57,7 @@
         android:textStyle="italic" />
 
     <ImageView
-        android:id="@+id/contact_availability"
+        android:id="@+id/contact_header_availability"
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_alignParentRight="true"
