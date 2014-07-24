@@ -1,39 +1,51 @@
 <contacts>
     <contact>
-        <name>
-        Chad Swenson
-        </name>
-        <location>
-        Office (Downtown Dallas)
-        </location>
-        <status>
-        It must be lunch time
-        </status>
+        <name>Chad Swenson</name>
+        <location>Office (Downtown Dallas)</location>
+        <status>It must be lunch time</status>
         <image>chad</image>
         <availability>AVAILABLE</availability>
     </contact>
     <contact>
-        <name>
-        John Bolt
-        </name>
-        <location>
-        Telecommuting
-        </location>
-        <status>
-        Zumba, baby!
-        </status>
-        <image>jb</image>
+        <name>Manuel Cintron</name>
+        <location>Office (Downtown Dallas)</location>
+        <status>I am an Android IRL</status>
+        <image>manuel</image>
+        <availability>BUSY</availability>
+    </contact>
+        <contact>
+        <name>Dan Bastian</name>
+        <location>Office (Foundry)</location>
+        <status>BIG DATA IS NOT THE FOUNDRY</status>
+        <image>dan</image>
+        <availability>AVAILABLE</availability>
+    </contact>
+        <contact>
+        <name>Ryan Ballard</name>
+        <location>Telecommuting</location>
+        <status>yes I am replacying ryyan</status>
+        <image>ryan</image>
+        <availability>AVAILABLE</availability>
+    </contact>
+    <contact>
+        <name>Heather Wilson</name>
+        <location>Telecommuting</location>
+        <status>WFH...kinda</status>
+        <image>heather</image>
         <availability>BUSY</availability>
     </contact>
     <contact>
-        <name>
-        David King
-        </name>
-        <location>
-        </location>
-        <status>
-        </status>
-        <image>jb</image>
+        <name>Evan Duderewicz</name>
+        <location>Telecommuting</location>
+        <status>windows.</status>
+        <image>evan</image>
+        <availability>BUSY</availability>
+    </contact>
+    <contact>
+        <name>David King</name>
+        <location>Offline</location>
+        <status>LONG LIVE</status>
+        <image>david</image>
         <availability>OFFLINE</availability>
     </contact>
 </contacts>

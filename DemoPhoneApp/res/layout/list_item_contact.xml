@@ -2,16 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal"
-    android:padding="5dip" >
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp" >
 
     <LinearLayout
         android:id="@+id/thumbnail"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="5dp" >
+        android:layout_marginRight="15dp" >
 
         <ImageView
             android:id="@+id/contact_image"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/contact_name"
         android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_alignLeft="@id/contact_name"
         android:text="In Office"
         android:textColor="#343434"
         android:textSize="12sp" />
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/contact_location"
         android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_alignLeft="@id/contact_name"
         android:text="Zumba, Baby!"
         android:textColor="#343434"
         android:textSize="12sp"
@@ -56,8 +56,8 @@
 
     <ImageView
         android:id="@+id/contact_availability"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:scaleType="fitXY"

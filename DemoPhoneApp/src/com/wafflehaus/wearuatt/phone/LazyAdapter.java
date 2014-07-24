@@ -83,7 +83,7 @@ public class LazyAdapter extends BaseAdapter {
 			availabilityId = R.drawable.status_offline;
 			break;
 		default:
-			availabilityId = R.drawable.status_available;
+			availabilityId = R.drawable.status_offline;
 			break;
 		}
 
