@@ -1,5 +1,7 @@
-package com.example.demowearapp;
+package com.wafflehaus.wearuatt.wear;
 
+
+import com.example.demowearapp.R;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
