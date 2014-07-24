@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wafflehaus.wearuatt.wear.MainActivity"
+    tools:context="com.wafflehaus.wearuatt.phone.MainActivity"
     tools:deviceIds="wear_square" >
 
     <android.support.wearable.view.WearableListView

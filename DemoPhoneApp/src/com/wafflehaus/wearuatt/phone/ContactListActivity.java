@@ -61,6 +61,14 @@ public class ContactListActivity extends Activity {
 		}
 
 		mList = (ListView) findViewById(R.id.listView1);
+		
+		Bundle extras = getIntent().getExtras();
+		  if (extras != null) {
+		   String datas= extras.getString("presence");
+		   if (datas!= null) {
+		        
+		   }   
+		  }
 
 		// Getting adapter by passing xml data ArrayList
 		mAdapter = new LazyAdapter(this, songsList);

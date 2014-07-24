@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
@@ -44,8 +45,13 @@ public class DataLayerListenerService extends WearableListenerService {
         
     }
     
+    
+    
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
+    	Toast.makeText(getApplicationContext(), "on data change",
+     		   Toast.LENGTH_LONG).show();
+    	
         LOGD(TAG, "onDataChanged: " + dataEvents);
         final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
         dataEvents.close();
@@ -115,26 +121,36 @@ public class DataLayerListenerService extends WearableListenerService {
         
     }
     
-    @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
-        LOGD(TAG, "onMessageReceived: " + messageEvent);
 
-        // Check to see if the message is to start an activity
-        /*if (messageEvent.getPath().equals(START_ACTIVITY_PATH)) {
-            Intent startIntent = new Intent(this, MainActivity.class);
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startIntent);
-        }*/
-    }
 
     @Override
     public void onPeerConnected(Node peer) {
-        LOGD(TAG, "onPeerConnected: " + peer);
+        super.onPeerConnected(peer);
+
+        String id = peer.getId();
+        String name = peer.getDisplayName();
+
+        Log.d(TAG, "Connected peer name & ID: " + name + "|" + id);
     }
 
     @Override
     public void onPeerDisconnected(Node peer) {
         LOGD(TAG, "onPeerDisconnected: " + peer);
+    }
+    
+    @Override
+    public void onMessageReceived(MessageEvent messageEvent) {
+    	Toast.makeText(getApplicationContext(), "message received",
+     		   Toast.LENGTH_LONG).show();
+        if (messageEvent.getPath().equals("/ContactListActivity")) {
+        	
+        	Toast.makeText(getApplicationContext(), new String (messageEvent.getData()),
+          		   Toast.LENGTH_LONG).show();
+            Intent startIntent = new Intent(this, ContactListActivity.class);
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startIntent.putExtra("presence", new String (messageEvent.getData()));
+            startActivity(startIntent);
+        }
     }
 
     public static void LOGD(final String tag, String message) {
