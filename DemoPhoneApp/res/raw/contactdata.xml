@@ -1,0 +1,39 @@
+<contacts>
+    <contact>
+        <name>
+        Chad Swenson
+        </name>
+        <location>
+        Office (Downtown Dallas)
+        </location>
+        <status>
+        It must be lunch time
+        </status>
+        <image>chad</image>
+        <availability>AVAILABLE</availability>
+    </contact>
+    <contact>
+        <name>
+        John Bolt
+        </name>
+        <location>
+        Telecommuting
+        </location>
+        <status>
+        Zumba, baby!
+        </status>
+        <image>jb</image>
+        <availability>BUSY</availability>
+    </contact>
+    <contact>
+        <name>
+        David King
+        </name>
+        <location>
+        </location>
+        <status>
+        </status>
+        <image>jb</image>
+        <availability>OFFLINE</availability>
+    </contact>
+</contacts>
