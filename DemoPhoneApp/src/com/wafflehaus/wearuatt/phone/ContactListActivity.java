@@ -41,8 +41,9 @@ public class ContactListActivity extends Activity {
 
 		XMLParser parser = new XMLParser();
 
-		String xml = convertStreamToString(getResources().openRawResource(R.raw.contactdata));
-															// URL
+		String xml = convertStreamToString(getResources().openRawResource(
+				R.raw.contactdata));
+		// URL
 		Document doc = parser.getDomElement(xml); // getting DOM element
 
 		NodeList nl = doc.getElementsByTagName(KEY_CONTACT);
@@ -63,24 +64,32 @@ public class ContactListActivity extends Activity {
 		}
 
 		mList = (ListView) findViewById(R.id.listView1);
-		
-		Bundle extras = getIntent().getExtras();
-		  if (extras != null) {
-		   String datas= extras.getString("presence");
-		   if (datas!= null) {
-		        
-		   }   
-		  }
 
 		mAvailability = (ImageView) findViewById(R.id.contact_header_availability);
 
 		Bundle extras = getIntent().getExtras();
-		  if (extras != null) {
-		   String datas= extras.getString("presence");
-		   if (datas!= null) {
-		        
-		   }   
-		  }
+		if (extras != null) {
+			String datas = extras.getString("presence");
+			if (datas != null) {
+				int availabilityId;
+				switch (ContactListActivity.Availability.valueOf(datas)) {
+				case AVAILABLE:
+					availabilityId = R.drawable.status_available;
+					break;
+				case BUSY:
+					availabilityId = R.drawable.status_busy;
+					break;
+				case OFFLINE:
+					availabilityId = R.drawable.status_offline;
+					break;
+				default:
+					availabilityId = R.drawable.status_offline;
+					break;
+				}
+				mAvailability.setImageDrawable(getResources().getDrawable(
+						availabilityId));
+			}
+		}
 
 		// Getting adapter by passing xml data ArrayList
 		mAdapter = new LazyAdapter(this, songsList);
@@ -88,10 +97,10 @@ public class ContactListActivity extends Activity {
 	}
 
 	static String convertStreamToString(java.io.InputStream is) {
-	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-	    return s.hasNext() ? s.next() : "";
+		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
