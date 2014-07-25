@@ -140,12 +140,9 @@ public class DataLayerListenerService extends WearableListenerService {
     
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-    	Toast.makeText(getApplicationContext(), "message received",
-     		   Toast.LENGTH_LONG).show();
+    	
         if (messageEvent.getPath().equals("/ContactListActivity")) {
         	
-        	Toast.makeText(getApplicationContext(), new String (messageEvent.getData()),
-          		   Toast.LENGTH_LONG).show();
             Intent startIntent = new Intent(this, ContactListActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startIntent.putExtra("presence", new String (messageEvent.getData()));
