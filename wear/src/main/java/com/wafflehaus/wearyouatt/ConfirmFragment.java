@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 
 public class ConfirmFragment extends Fragment    {
 	private String presence;
-	
+
+    public ConfirmFragment(){}
+
 	public ConfirmFragment(String p){
 		this.presence = p;
 	}
