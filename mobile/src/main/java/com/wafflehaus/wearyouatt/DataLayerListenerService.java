@@ -26,7 +26,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 public class DataLayerListenerService extends WearableListenerService {
 	
-	private static final String TAG = "DataLayerListenerService";
+	private static final String TAG = "DataLayerListenerServic";
 	private static final String PRESENCE_KEY = "presence";
 	private static final String PRESENCE_PATH = "/presence";
 	private static final int TIMEOUT_MS = 5000;
