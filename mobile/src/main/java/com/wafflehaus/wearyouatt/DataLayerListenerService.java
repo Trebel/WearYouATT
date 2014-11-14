@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -47,9 +48,6 @@ public class DataLayerListenerService extends WearableListenerService {
 
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
-    	Toast.makeText(getApplicationContext(), "on data change",
-     		   Toast.LENGTH_LONG).show();
-    	
         LOGD(TAG, "onDataChanged: " + dataEvents);
         final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
         dataEvents.close();
@@ -141,10 +139,11 @@ public class DataLayerListenerService extends WearableListenerService {
     	
         if (messageEvent.getPath().equals("/ContactListActivity")) {
         	
-            Intent startIntent = new Intent(this, ContactListActivity.class);
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startIntent.putExtra("presence", new String (messageEvent.getData()));
-            startActivity(startIntent);
+            Intent intent = new Intent(ContactListActivity.class.getName());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("presence", new String (messageEvent.getData()));
+
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
     }
 
